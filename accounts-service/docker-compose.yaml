@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres:15.4
+    container_name: accounts-postgres-srv
+    environment:
+      POSTGRES_DB: accountsdb
+      POSTGRES_USER: mtksuser
+      POSTGRES_PASSWORD: mtkspassword
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  app:
+    build: .
+    container_name: accounts-service
+    volumes:
+      - .:/usr/src/app
+      - /Users/monapp/Desktop/starrentacar/backend/accounts-service
+    depends_on:
+      - postgres
+    ports:
+      - '3000:3000'
+    command: npm run start:dev
+    environment:
+      - NODE_ENV=development
+      - DATABASE_HOST=accounts-postgres-srv
+      - DATABASE_PORT=5432
+      - DATABASE_USER=mtksuser
+      - DATABASE_PASSWORD=mtkspassword
+      - DATABASE_NAME=accountsdb
+volumes:
+  mongo-data:
+  postgres_data:
