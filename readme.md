@@ -8,4 +8,11 @@
 - Typescript, NestJS, NextJS, JAVA, PHP
 - MongoDB, PostgreSQL, Redis
 
+---
+
+### Services
+
+- <a href="./accounts-service/">Accounts Service</a>
+  - Nest.JS, MongoDB
+
 <img src="./assets/services_draft.jpg">
