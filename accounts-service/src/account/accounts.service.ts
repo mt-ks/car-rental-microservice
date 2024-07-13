@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { CreateAccountDto } from './dtos/create-account.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Account } from './schemas/accounts.schema';
+import { Account } from './schemas/account.schema';
 import { Model } from 'mongoose';
 
 @Injectable()
@@ -19,10 +19,7 @@ export class AccountsService {
 
   async isEmailInUse(email: string) {
     const find = await this.model.findOne({ email });
-    if (find) {
-      return true;
-    }
-    return false;
+    return !!find;
   }
 
   update() {}
