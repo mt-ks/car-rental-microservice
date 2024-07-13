@@ -1,0 +1,21 @@
+services:
+  zookeeper:
+    image: "bitnami/zookeeper:latest"
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes # Zookeeper için anonim giriş izni veriyoruz.
+
+  kafka:
+    image: "bitnami/kafka:latest"
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181 # Kafka'nın Zookeeper ile bağlantı yapması için gerekli
+      - ALLOW_PLAINTEXT_LISTENER=yes # Kafka'ya düz metin dinleyici izni veriyoruz.
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 # Kafka'nın dinleyeceği adresi belirtiyoruz.
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT # Kafka dinleyicisi için güvenlik protokolü belirtiyoruz.
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT # Brokerlar arası dinleyici için ad belirtiyoruz.
+      - KAFKA_CREATE_TOPICS=test-topic:1:1 # İlk başta yaratılacak bir test topic
+    depends_on:
+      - zookeeper # Kafka'nın Zookeeper başlamadan önce başlamasını sağlıyoruz.
