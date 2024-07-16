@@ -3,12 +3,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import { AccountsService } from './accounts.service';
-import { Account, AccountSchema } from './schemas/account.schema';
-import { BadRequestException } from '@nestjs/common';
+import { UsersService } from './users.service';
+import { User, UserSchema } from './schemas/user.schema';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { PasswordEncryption } from './password-encryption.service';
 
 describe('Accounts Service Test', () => {
-  let service: AccountsService;
+  let service: UsersService;
   let mongod: MongoMemoryServer;
   let module: TestingModule;
 
@@ -19,14 +20,12 @@ describe('Accounts Service Test', () => {
     module = await Test.createTestingModule({
       imports: [
         MongooseModule.forRoot(uri),
-        MongooseModule.forFeature([
-          { name: Account.name, schema: AccountSchema },
-        ]),
+        MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
       ],
-      providers: [AccountsService],
+      providers: [UsersService, PasswordEncryption],
     }).compile();
 
-    service = module.get<AccountsService>(AccountsService);
+    service = module.get<UsersService>(UsersService);
   });
 
   it('AccountsService should be defined', () => {
@@ -34,18 +33,46 @@ describe('Accounts Service Test', () => {
   });
 
   it('Create account successfuly. Throw exception when trying create account with used email', async () => {
-    const createAccountDto = {
+    let createAccountDto = {
       email: 'test@test.com',
-      password: 'mypassword',
+      password: 'staticpassword',
       name: 'Mt',
       surname: 'Ks',
       nationality: 'TR',
     };
+    createAccountDto.email = 'test2@test.com';
     const create = await service.create(createAccountDto);
+    expect(create).toHaveProperty('_id');
     await expect(service.create(createAccountDto)).rejects.toThrow(
       BadRequestException,
     );
+  });
+
+  it('create awccount and login successfully', async () => {
+    let createAccountDto = {
+      email: 'test@test.com',
+      password: 'staticpassword',
+      name: 'Mt',
+      surname: 'Ks',
+      nationality: 'TR',
+    };
+    createAccountDto.email = 'test3@test.com';
+    const create = await service.create(createAccountDto);
+
     expect(create).toHaveProperty('_id');
+
+    const login = await service.login({
+      email: createAccountDto.email,
+      password: 'staticpassword',
+    });
+    expect(login).toHaveProperty('email');
+    // throws an error if auth failed.
+    await expect(
+      service.login({
+        email: createAccountDto.email,
+        password: 'thispasswordisincorrect',
+      }),
+    ).rejects.toThrow(UnauthorizedException);
   });
 
   afterAll(async () => {
