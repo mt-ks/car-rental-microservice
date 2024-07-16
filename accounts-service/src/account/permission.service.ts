@@ -15,8 +15,14 @@ export class PermissionService {
     return createPermission.save();
   }
 
-  getAllPermissions(user_id: string) {
-    return this.permissionModel.find({ user_id });
+  async getAllPermissions(user_id: string) {
+    const permissions = await this.permissionModel.find({ user_id });
+    const list = new Set();
+    permissions.forEach((item) => {
+      list.add(item.permission_name);
+    });
+
+    return [...list];
   }
 
   update(id: string, updateDto: Partial<CreatePermissionDto>) {
