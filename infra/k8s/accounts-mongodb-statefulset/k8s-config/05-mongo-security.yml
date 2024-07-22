@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: accounts-mongo-security
+data:
+  keyFile: |
+    Q+kJdDTBxMi2/1Ak+QQ010kI7x59cr4lgUnBr2HWvxrwOwqu4dneMxMGfNfVeAsz
+    sL5UsKp2fgNLR6CtdHmGqMnqO3P4BuZtvwO6IjoH1VWb4pa8IKOQfe4BTYTcxY8B
+    E71AjKLuC8mjInBJpUwPkE0KId0pvbBd6wAvvGqropJ4P42G4f54ji1qsGGUCsL2
+    mSQUhECdxD1SCukBlraEjrXgUzuX1jtLv3gAi3oX+hgLSPotrKzEfPfCG2vDuWIU
+    JP820kgiwKP+to8pl3DW+VkQZVRmutWmjQjgEbRJSxjsi4CjG/5TkIdI5hmGSNfl
+    8tHDRtOSBSK94kwa/ABkZaK6Cc+fUCAnkG6t4tULi8RBjz+Wak+VduY2RiaKs+NX
+    Hj06KlCdl5nptGU2bzXUdOEGq/Y6yitEkCYFM4as4/CLfENIgvcdXUR+py4CUJ/j
+    JKyvEgO8mQdiyLKl/xni9Xz7sBS0MSC4kf9w1vzUAV/7RSmL97WGup0HJJDNoSdz
+    9xe6lh39cQ6zZFKxsIFtWWXyY8ya1LjMToEp7UE4Jd8eznd0usseekXgJlmnW6zx
+    vV68odE+aNNNOfHv9jNK+kC3rySvin2Br0dkX7rqqK0XNdB0+sl85vfmra/2tgjk
+    TuMuvamkVEpVngPSL3oLBQW46Krpd8eGEJT4Ej3g7D8NI3vwNktqXrJ+bBpeVPl6
+    G5FJxgOCN2xTNpkGTstHaj5zhK8Q8K3MFlaFwpAkcTI3FMheRWuyE/JXzzyL4P4H
+    6I2Dsha/TDWGZxRz9oQ9tmvqWNwDG8n44YjMAwUwu8VdVQbesPGDzvB0wm9rQFG5
+    /anYZEfsmWXwoRUkbCoqQMyZqHTE1Im0+FlbEk6Cf45J1dA71KFbNgK1OjHHWnAB
+    uf0pz9IlNT29unw42C4um5JIF3d6gHlaCs8H1kcjdVSnBvaYBfw3I62FdMIo/wLv
+    8KtqyBtZx8V0B2UeAU09zYhc91Cz

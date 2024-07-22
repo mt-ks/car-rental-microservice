@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: accounts-mongo-env
+data:
+  MONGO_INITDB_ROOT_USERNAME: root
+  MONGO_INITDB_DATABASE: accounts
+  MONGO_USERNAME: mt-ks

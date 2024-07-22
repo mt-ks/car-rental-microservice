@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: accounts-mongo
+spec:
+  replicas: 3
+  serviceName: accounts-mongo-service
+  selector:
+    matchLabels:
+      app: accounts-mongo
+  template:
+    metadata:
+      labels:
+        app: accounts-mongo
+    spec:
+      terminationGracePeriodSeconds: 5
+      initContainers:
+        - name: prepare
+          image: mongo
+          securityContext:
+            runAsUser: 0
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - /home/mongodb/scripts/prepare.sh
+          volumeMounts:
+            - name: accounts-mongo-dir
+              mountPath: /home/mongodb
+            - name: accounts-mongo-security
+              mountPath: /home/mongodb/security
+            - name: accounts-mongo-script
+              mountPath: /home/mongodb/scripts
+          env:
+            - name: K8S_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+      containers:
+        - name: accounts-mongo
+          image: mongo
+          workingDir: /home/mongodb
+          volumeMounts:
+            - name: accounts-mongo-dir
+              mountPath: /home/mongodb
+            - name: accounts-mongo-config
+              mountPath: /home/mongodb/config
+            - name: accounts-mongo-setup
+              mountPath: /docker-entrypoint-initdb.d
+            - name: accounts-mongo-volume-claim
+              mountPath: /data/db
+          ports:
+            - containerPort: 27017
+          env:
+            - name: K8S_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: K8S_REPLICAS
+              value: "3"
+          envFrom:
+            - configMapRef:
+                name: accounts-mongo-env
+            - secretRef:
+                name: accounts-mongo-secret
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - |
+              docker-entrypoint.sh mongod \
+                --replSet rs0 \
+                --config /home/mongodb/config/mongo.conf
+      volumes:
+        - name: accounts-mongo-dir
+          emptyDir: {}
+        - name: accounts-mongo-security
+          configMap:
+            name: accounts-mongo-security
+            defaultMode: 256 #0400
+        - name: accounts-mongo-config
+          configMap:
+            name: accounts-mongo-config
+            defaultMode: 292 #0444
+        - name: accounts-mongo-setup
+          configMap:
+            name: accounts-mongo-setup
+            defaultMode: 365 #0555
+        - name: accounts-mongo-script
+          configMap:
+            name: accounts-mongo-script
+            defaultMode: 365 #0555
+  volumeClaimTemplates:
+    - metadata:
+        name: accounts-mongo-volume-claim
+      spec:
+        resources:
+          requests:
+            storage: 100Mi
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: "local-storage"
