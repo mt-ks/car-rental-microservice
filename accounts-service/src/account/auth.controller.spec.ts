@@ -10,6 +10,8 @@ import { PermissionService } from './permission.service';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { LoginAccountDto } from './dtos/login-account.dto';
 import { CreateAccountDto } from './dtos/create-account.dto';
+import { UpdateAccountDto } from './dtos/update-account.dto';
+import { JwtInfoDto } from './dtos/jwt-info.dto';
 
 describe('AuhtController', () => {
   const users = [];
@@ -40,6 +42,9 @@ describe('AuhtController', () => {
       });
       users.push(createAccountDto);
       return createAccountDto;
+    },
+    update: (id: string, info: Partial<UpdateAccountDto>) => {
+      return info;
     },
   };
   let fakePermissionService = {
@@ -101,7 +106,18 @@ describe('AuhtController', () => {
       { email: 'email', password: 'password' },
       resFakeClass,
     );
+
     expect(login.status).not.toBeUndefined();
     expect(login.status).toBe('ok');
+  });
+
+  it('edit() method test', async () => {
+    const info = {
+      name: 'new name',
+    } as Partial<UpdateAccountDto>;
+    const fakeJwtInfoDto = { id: '1', permissions: [] } as JwtInfoDto;
+    const edit = await controller.edit(info, fakeJwtInfoDto);
+    expect(edit.status).toBe('ok');
+    expect(edit.user.name).toBe(info.name);
   });
 });

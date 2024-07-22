@@ -10,6 +10,7 @@ import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
 import { LoginAccountDto } from './dtos/login-account.dto';
 import { PasswordEncryption } from './password-encryption.service';
+import { UpdateAccountDto } from './dtos/update-account.dto';
 
 @Injectable()
 export class UsersService {
@@ -58,5 +59,9 @@ export class UsersService {
 
   async getUser(id: string) {
     return await this.model.findOne({ _id: id });
+  }
+
+  update(id: string, info: Partial<UpdateAccountDto>) {
+    return this.model.findByIdAndUpdate(id, info, { new: true });
   }
 }

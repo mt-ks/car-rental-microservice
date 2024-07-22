@@ -3,11 +3,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { UsersService } from './users.service';
 import { User, UserSchema } from './schemas/user.schema';
-import staticFakeCreateAccountDto from './faker/create-account-dto-fake';
 import { PasswordEncryption } from './password-encryption.service';
-import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import mongoose from 'mongoose';
 import createFakeAccountDto from './faker/create-account-dto-fake';
+import { UpdateAccountDto } from './dtos/update-account.dto';
 
 describe('UsersService Test', () => {
   let module: TestingModule;
@@ -55,6 +55,25 @@ describe('UsersService Test', () => {
   it('Tests whether an email address is registered.', async () => {
     const isEmailInUse = await service.isEmailInUse('uniqueemail@unique.com');
     expect(isEmailInUse).toBe(false);
+  });
+
+  it('it updates account info', async () => {
+    const account = createFakeAccountDto();
+    const create = await service.create(account);
+    expect(create).toHaveProperty('_id');
+    expect(create.name).toEqual(account.name);
+
+    const updateUserDto = {
+      name: 'Updated name',
+      surname: 'updated surname',
+      nationality: 'EN',
+    } as Partial<UpdateAccountDto>;
+
+    const update = await service.update(create.id, updateUserDto);
+    expect(update).toHaveProperty('_id');
+    expect(update.name).toEqual(updateUserDto.name);
+    expect(update.surname).toEqual(updateUserDto.surname);
+    expect(update.nationality).toEqual(updateUserDto.nationality);
   });
 
   afterAll(async () => {

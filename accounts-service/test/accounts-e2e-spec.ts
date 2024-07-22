@@ -72,6 +72,7 @@ describe('AccountsController (e2e)', () => {
   });
 
   it('/api/accounts/login create account and login successfully & failure (POST)', async () => {
+    // create account for test
     const response = await request(app.getHttpServer())
       .post('/api/accounts/create')
       .send({
@@ -86,6 +87,7 @@ describe('AccountsController (e2e)', () => {
     expect(response.body).toHaveProperty('message');
     expect(response.body).toHaveProperty('statusCode');
 
+    // provide correct email and password
     const loginSuccess = await request(app.getHttpServer())
       .post('/api/accounts/login')
       .send({ email: 'test@test.com', password: 'staticpassword' });
@@ -98,18 +100,30 @@ describe('AccountsController (e2e)', () => {
     expect(loginSuccess.body).toHaveProperty('user.surname');
     expect(loginSuccess.body).toHaveProperty('user.nationality');
 
+    // provide incorrect password
     const loginFailed = await request(app.getHttpServer())
       .post('/api/accounts/login')
       .send({ email: 'test@test.com', password: 'staticpasswordx' });
 
     expect(loginFailed.statusCode).toEqual(401);
+
+    // throws 400 bad request because used passwordxs instead password property
+    const loginFailedIncorrectParams = await request(app.getHttpServer())
+      .post('/api/accounts/login')
+      .send({ email: 'test@test.com', passwordxs: 'staticpasswordx' });
+
+    expect(loginFailedIncorrectParams.body).toHaveProperty('message');
+    expect(loginFailedIncorrectParams.body).toHaveProperty('error');
+    expect(loginFailedIncorrectParams.body).toHaveProperty('statusCode');
   });
 
   it('/api/accounts/info (GET)', async () => {
+    // create account for test
     const createAcc = await request(app.getHttpServer())
       .post('/api/accounts/create')
       .send(createFakeAccountDto());
 
+    // get account info
     const res = await request(app.getHttpServer())
       .get('/api/accounts/info')
       .set('Authorization', `${createAcc.headers.authorization}`);
@@ -117,6 +131,35 @@ describe('AccountsController (e2e)', () => {
     expect(res.body).toHaveProperty('status');
     expect(res.body).toHaveProperty('user');
     expect(res.body).toHaveProperty('user.id');
+  });
+
+  it('/api/accounts/edit (PUT)', async () => {
+    // crea
+    const dto = createFakeAccountDto();
+    const createAcc = await request(app.getHttpServer())
+      .post('/api/accounts/create')
+      .send(dto);
+    // edit account
+    const res = await request(app.getHttpServer())
+      .put('/api/accounts/edit')
+      .set('Authorization', `${createAcc.headers.authorization}`)
+      .send({ name: 'New Name' });
+
+    expect(res.body).toHaveProperty('status');
+    expect(res.body).toHaveProperty('user');
+    expect(res.body).toHaveProperty('user.name');
+    expect(res.body.user.name).toBe('New Name');
+
+    // throws 400 bad request because given an invalid name value.
+    const updateFailed = await request(app.getHttpServer())
+      .put('/api/accounts/edit')
+      .set('Authorization', `${createAcc.headers.authorization}`)
+      .send({ name: '' });
+
+    expect(updateFailed.body).toHaveProperty('message');
+    expect(updateFailed.body).toHaveProperty('error');
+    expect(updateFailed.body.error).toBe('Bad Request');
+    expect(updateFailed.body).toHaveProperty('statusCode');
   });
 
   afterAll(async () => {

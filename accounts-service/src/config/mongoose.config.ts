@@ -11,12 +11,8 @@ export class MongooseConfigService implements MongooseOptionsFactory {
   constructor(private configService: ConfigService) {}
 
   createMongooseOptions(): MongooseModuleOptions {
-    const username = this.readMongoSecretSync('mongodb_username');
-    const password = this.readMongoSecretSync('mongodb_password');
-    console.log(username, password);
-
     return {
-      uri: `mongodb://${username}:${password}@mongo-srv:27017/accounts`,
+      uri: process.env.MONGODB_REPLICASET_URI,
     };
   }
 

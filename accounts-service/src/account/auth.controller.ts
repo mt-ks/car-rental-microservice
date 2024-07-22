@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Req,
   Res,
   UseGuards,
@@ -19,6 +20,9 @@ import { AccountDto } from './dtos/response/account.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { JwtInfo } from './decorators/jwt-info.decorator';
 import { JwtInfoDto } from './dtos/jwt-info.dto';
+import { UpdateAccountDto } from './dtos/update-account.dto';
+import { AccountsUpdateResponseDto } from './dtos/response/accounts-update-response.dto';
+import { UpdateAccountPartialDto } from './dtos/update-account-partial.dto';
 
 @Controller('api/accounts')
 export class AuthController {
@@ -70,5 +74,19 @@ export class AuthController {
     const user = await this.usersService.getUser(jwtInfo.id);
 
     return { status: 'ok', user };
+  }
+
+  @Put('/edit')
+  @Serialize(AccountsUpdateResponseDto)
+  @UseGuards(AuthGuard)
+  async edit(
+    @Body() userInfo: UpdateAccountPartialDto,
+    @JwtInfo() info: JwtInfoDto,
+  ) {
+    const user = await this.usersService.update(info.id, userInfo);
+    return {
+      status: 'ok',
+      user,
+    };
   }
 }
