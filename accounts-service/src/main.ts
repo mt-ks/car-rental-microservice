@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   if (!process.env.JWT_KEY) {
-    throw new Error('JWT_KEY must be defined');
+    throw new Error('JWT_KEY must be definedxclolo');
   }
   const app = await NestFactory.create(AppModule);
   await app.listen(3000);

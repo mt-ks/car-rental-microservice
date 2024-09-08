@@ -6,6 +6,9 @@ export class AccountsCreateResponseDto {
   status: string;
 
   @Expose()
+  token: string;
+
+  @Expose()
   @Type(() => AccountDto)
   user: AccountDto;
 }

@@ -54,16 +54,26 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const user = await this.usersService.login(loginAccountDto);
-    const token = this.jwtService.sign({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      permissions: await this.permissionService.getAllPermissions(user.id),
+    this.permissionService.create({
+      permission_name: 'vehicles:create',
+      user_id: user.id,
     });
+    const token = this.jwtService.sign(
+      {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        permissions: await this.permissionService.getAllPermissions(user.id),
+      },
+      {
+        secret: process.env.JWT_KEY,
+      },
+    );
     res.setHeader('Authorization', `Bearer ${token}`);
     return {
-      status: 'ok',
+      status: 'ok KEY:' + process.env.JWT_KEY,
       user,
+      token,
     };
   }
 

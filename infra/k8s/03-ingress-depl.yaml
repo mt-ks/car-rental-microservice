@@ -17,3 +17,10 @@ spec:
                 name: account-depl
                 port:
                   number: 3000
+          - path: /api/v1/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: vechile-depl
+                port:
+                  number: 3001

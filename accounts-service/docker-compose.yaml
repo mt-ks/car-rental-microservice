@@ -34,6 +34,7 @@ services:
     command: npm run start:dev
     environment:
       - NODE_ENV=development
+      - JWT_KEY=test123
     secrets:
       - mongodb_password
       - mongodb_username

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vechile-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vechile
+  template:
+    metadata:
+      labels:
+        app: vechile
+    spec:
+      containers:
+        - image: mtks/starrent-vechile-service
+          name: vechile
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vechile-depl
+spec:
+  selector:
+    app: vechile
+  ports:
+    - name: vechile
+      port: 3001
+      targetPort: 3001
+      protocol: TCP
