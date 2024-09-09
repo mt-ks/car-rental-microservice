@@ -71,9 +71,8 @@ export class AuthController {
     );
     res.setHeader('Authorization', `Bearer ${token}`);
     return {
-      status: 'ok KEY:' + process.env.JWT_KEY,
+      status: 'ok',
       user,
-      token,
     };
   }
 
