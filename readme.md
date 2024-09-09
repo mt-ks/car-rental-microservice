@@ -5,7 +5,7 @@
 - Docker
 - Kubernetes
 - Apache Kafka (for EDD)
-- Typescript, NestJS, NextJS, JAVA, PHP
+- Typescript, NestJS, NextJS, JAVA (Spring Boot), PHP
 - MongoDB, PostgreSQL, Redis
 
 ---
@@ -14,6 +14,8 @@
 
 - <a href="./accounts-service/">Accounts Service</a>
   - Nest.JS, MongoDB
+- <a href="./vehicle-service/">Vehicle Service</a>
+  - Java (Spring Boot), PostgreSQL
 
 <img src="./assets/services_draft.jpg">
 
