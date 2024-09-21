@@ -62,7 +62,7 @@ public class VehicleFaker {
                 .longitude(0)
                 .deliveryType(0)
                 .isAvailable(true)
-                .vehicleOwner(1)
+                .vehicleOwner("0000101010101010101")
                 .createdAt(new Date())
                 .updatedAt(new Date())
                 .build();

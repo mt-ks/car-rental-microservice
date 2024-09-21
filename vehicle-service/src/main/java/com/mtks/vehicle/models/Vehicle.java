@@ -193,6 +193,7 @@ public class Vehicle {
      */
     @Column(name = "is_available")
     @JsonProperty("is_available")
+    @Builder.Default
     private boolean isAvailable = true;
 
     /**
@@ -200,7 +201,7 @@ public class Vehicle {
      */
     @Column(name = "vehicle_owner")
     @JsonProperty("vehicle_owner")
-    private Integer vehicleOwner;
+    private String vehicleOwner;
 
     @Column(name = "updated_at")
     @JsonProperty("updated_at")

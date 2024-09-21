@@ -1,6 +1,7 @@
 package com.mtks.vehicle.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mtks.vehicle.dto.VehicleDto;
 import com.mtks.vehicle.models.Vehicle;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,5 +15,5 @@ import java.util.List;
 public class GetVehiclesResponseDto {
     private String status;
     @JsonProperty("vehicles")
-    private List<Vehicle> vehicles;
+    private List<VehicleDto> vehicles;
 }

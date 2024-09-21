@@ -1,0 +1,27 @@
+syntax = "proto3";
+option java_package = "com.mtks.payment";
+option java_multiple_files = true;
+
+message PaymentRequest{
+  int32 vehicleId = 1;
+  PaymentInfo cardInfo = 2;
+}
+
+message PaymentResponse{
+  string status = 1;
+}
+
+message PaymentInfo {
+  string amount = 1;
+  string referenceNo = 2;
+  string domain = 3;
+  string cardHolder = 4;
+  string pan = 5;
+  int32 month = 6;
+  int32 year = 7;
+  string cvc = 8;
+}
+
+service PaymentService{
+  rpc MakePayment(PaymentRequest) returns (PaymentResponse);
+}

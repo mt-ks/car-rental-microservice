@@ -1,0 +1,39 @@
+[
+  {
+    "id": 1,
+    "name": "Ford Mustang",
+    "image": "/images/vehicles/mustang.png",
+    "type": "Sedan"
+  },
+  {
+    "id": 2,
+    "name": "BMW X5",
+    "image": "/images/vehicles/bmw-x53.png",
+    "type": "SUV"
+  },
+  {
+    "id": 3,
+    "name": "Nissan Sentra",
+    "image": "/images/vehicles/nissan-sentra.png",
+    "type": "Sedan"
+  },
+  {
+    "id": 4,
+    "name": "BMW X3",
+    "image": "/images/vehicles/bmw-x33.png",
+    "type": "SUV"
+  },
+  {
+    "id": 5,
+    "name": "UTV",
+    "image": "/images/vehicles/utv.png",
+    "type": "UTV"
+  },
+
+  {
+    "id": 6,
+    "name": "UTV",
+    "image": "/images/vehicles/tire-car.png",
+    "type": "UTV"
+  }
+]

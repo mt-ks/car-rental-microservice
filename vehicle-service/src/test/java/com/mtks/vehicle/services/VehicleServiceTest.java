@@ -1,7 +1,7 @@
 package com.mtks.vehicle.services;
 
 import com.mtks.vehicle.dto.CreateVehicleDto;
-import com.mtks.vehicle.dto.response.CreateVehicleResponseDto;
+import com.mtks.vehicle.dto.response.VehicleResponseDto;
 import com.mtks.vehicle.models.Vehicle;
 import com.mtks.vehicle.repository.VehicleRepository;
 import com.mtks.vehicle.utils.VehicleFaker;
@@ -54,7 +54,7 @@ public class VehicleServiceTest {
     public void createVehicleAndGetResponseDto(){
         CreateVehicleDto createVehicleDto = new CreateVehicleDto();
 
-        CreateVehicleResponseDto responseDto = vehicleService.createVehicle(createVehicleDto);
+        VehicleResponseDto responseDto = vehicleService.createVehicle(createVehicleDto);
 
         Assertions.assertNotNull(responseDto);
         Assertions.assertNotNull(responseDto.getStatus());

@@ -6,10 +6,7 @@ import com.mtks.vehicle.models.enums.VehicleSegments;
 import com.mtks.vehicle.models.enums.VehicleTransmissionTypes;
 import com.mtks.vehicle.validation.ValidEnum;
 import com.mtks.vehicle.validation.ValidUrl;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -138,9 +135,6 @@ public class CreateVehicleDto {
 
     @JsonProperty("is_available")
     private boolean isAvailable = true;
-
-    @JsonProperty("vehicle_owner")
-    private Integer vehicleOwner = 0;
 
     private Date updatedAt = new Date();
     private Date createdAt = new Date();

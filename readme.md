@@ -17,6 +17,8 @@
 - <a href="./vehicle-service/">Vehicle Service</a>
   - Java (Spring Boot), PostgreSQL
 
+<img src="./assets/frontend.png" style="border:1px solid #dbdbdb">
+
 <img src="./assets/services_draft.jpg">
 
 ### K8S Secrets

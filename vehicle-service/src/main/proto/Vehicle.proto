@@ -1,0 +1,42 @@
+syntax = "proto3";
+option java_package = "com.mtks.vehicle";
+option java_multiple_files = true;
+
+//message PaymentRequest{
+//  int32 vehicleId = 1;
+//  PaymentInfo cardInfo = 2;
+//}
+
+//message PaymentResponse{
+//  string status = 1;
+//}
+
+//message PaymentInfo {
+//  string amount = 1;
+//  string referenceNo = 2;
+//  string domain = 3;
+//  string cardHolder = 4;
+//  string pan = 5;
+//  int32 month = 6;
+//  int32 year = 7;
+//  string cvc = 8;
+//}
+
+message VehicleInfoRequest{
+  int32 vehicleId = 1;
+}
+
+message VehicleInfoResponse{
+  int32 id = 1;
+  bool isAvailable = 2;
+  float price = 3;
+  float securityDeposit = 4;
+}
+
+service VehicleService{
+  rpc GetVehicleInfo(VehicleInfoRequest) returns (VehicleInfoResponse);
+}
+
+//service PaymentService{
+//  rpc MakePayment(PaymentRequest) returns (PaymentResponse);
+//}

@@ -1,12 +1,13 @@
 services:
-  app:
-    build: .
-    container_name: vehicle-service
+  vehicle-service:
+    build: 
+      context: ./vehicle-service
+      dockerfile: Dockerfile
     restart: unless-stopped
     ports:
       - "3001:3001"
     volumes:
-      - ./:/app
+      - ./vehicle-service:/app
     networks:
       - car-network
     environment:
@@ -62,7 +63,50 @@ services:
       KAFKA_JMX_PORT: 9997
     networks:
       - car-network
-
+  rent-service:
+    build:
+      context: ./rent-service/
+    container_name: rent-service
+    restart: unless-stopped
+    depends_on:
+      - rent-db
+    ports:
+      - "3002:3002"
+    environment:
+      SERVER_PORT: 3002
+      DATASOURCE_URL: jdbc:postgresql://rent-db:5433/rent_db
+      DATASOURCE_USERNAME: postgres
+      DATASOURCE_PASSWORD: POSTGRES_PASSWORD
+      JWT_SECRET_KEY: ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NQ==
+      SPRING_DEVTOOLS_REMOTE_SECRET: my_secret_key
+    volumes:
+      - ./rent-service:/app
+    networks:
+      - car-network
+  rent-db:
+    image: postgres:15
+    container_name: rent-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: POSTGRES_PASSWORD
+      POSTGRES_DB: rent_db
+    command: -p 5433
+    ports:
+      - "5433:5433"
+    networks:
+      - car-network
+  payment-service:
+    build:
+      context: ./payment-service/
+    container_name: payment-service
+    environment:
+      SPRING_DEVTOOLS_REMOTE_SECRET: my_secret_key
+    ports:
+      - "3003:3003"
+    networks:
+      - car-network
+    volumes:
+      - ./payment-service:/app
 networks:
   car-network:
-    driver: bridge
+    external: true

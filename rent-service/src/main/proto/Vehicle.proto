@@ -1,0 +1,19 @@
+syntax = "proto3";
+option java_package = "com.mtks.rent";
+option java_multiple_files = true;
+
+message VehicleInfoRequest{
+  int32 vehicleId = 1;
+}
+
+message VehicleInfoResponse{
+  int32 id = 1;
+  bool isAvailable = 2;
+  float price = 3;
+  float securityDeposit = 4;
+}
+
+service VehicleService{
+  rpc GetVehicleInfo(VehicleInfoRequest) returns (VehicleInfoResponse);
+}
+

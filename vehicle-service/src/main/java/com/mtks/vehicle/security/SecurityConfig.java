@@ -28,7 +28,8 @@ public class SecurityConfig {
                .exceptionHandling(configurer -> configurer.authenticationEntryPoint(jwtAuthEntryPoint))
                 .authorizeHttpRequests(authorizeRequests -> {
                    authorizeRequests
-                           .anyRequest().authenticated();
+                           .anyRequest()
+                           .authenticated();
                 })
                .httpBasic(basic -> {
 

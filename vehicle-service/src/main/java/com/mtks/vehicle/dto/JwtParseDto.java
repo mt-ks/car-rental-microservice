@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data //insted of this annotation, you can generate the getters and setters
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JwtParseDto {
 
